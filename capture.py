@@ -37,6 +37,8 @@ while True:
 
     status_list.append(status)
 
+    status_list = status_list[-2:]
+
     if status_list[-1] != status_list[-2]:
         times.append(datetime.now())
 
@@ -58,7 +60,9 @@ cv2.destroyAllWindows()
 
 df = pandas.DataFrame(columns=["Start", "End"])
 
+
 for i in range(0, len(times), 2):
-    df = df.append({"Start": times[i], "End": times[i + 1]}, ignore_index=True)
+    new = pandas.DataFrame.from_dict({"Start": times[i], "End": times[i + 1]})
+    df = pandas.concat([df, new], ignore_index=True)
 
 df.to_csv("Times.csv")
